@@ -23,7 +23,7 @@
 
 		try {
 		String jdbcDriver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=utf-8";
+		String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
 		String dbUser = "root";
 		String dbPass = "java0000";
 		Class.forName(jdbcDriver);
@@ -39,10 +39,13 @@
 		stmt.executeUpdate();
 		
 		} finally {
-				rs.close();
-				stmt.close();
-				conn.close();
-			}
+			// 6. 사용한 Statement 종료
+			if (rs != null) try { rs.close(); } catch(SQLException ex) {}
+			if (stmt != null) try { stmt.close(); } catch(SQLException ex) {}
+			
+			// 7. 커넥션 종료
+			if (conn != null) try { conn.close(); } catch(SQLException ex) {}
+		}
 		
 		response.sendRedirect(request.getContextPath() + "/admin/item/itemAddForm.jsp");
 		

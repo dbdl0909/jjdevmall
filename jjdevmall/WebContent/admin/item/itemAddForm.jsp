@@ -46,6 +46,7 @@
 		</script>
 	</head>
 	<body>
+	<h1>item 등록</h1>
 		<form id="addForm" action="<%=request.getContextPath()%>/admin/item/itemAddAction.jsp" method="post">
 			<table>
 				<tr>

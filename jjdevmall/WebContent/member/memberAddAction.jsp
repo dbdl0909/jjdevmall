@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Insert title here</title>
 	</head>
 	<body>
 	<%
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
 		String memberId = request.getParameter("memberId");
 		String memberPw = request.getParameter("memberPw");
 		String memberName = request.getParameter("memberName");
@@ -30,7 +30,7 @@
 		
 		try {			
 			String jdbcDriver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=utf-8";
+			String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
 			String dbUser = "root";
 			String dbPass = "java0000";
 			Class.forName(jdbcDriver);
@@ -46,6 +46,7 @@
 			stmt1.setString(4, memberGender);
 			stmt1.setString(5, memberAge);
 			System.out.println(stmt1 + " : stmt1 memberAddAction.jsp");
+			
 			stmt1.executeUpdate();
 			
 			//member 테이블에 INSERT했을때 PRIMARY KEY 가져오기
@@ -68,6 +69,7 @@
 				stmt2.setInt(1, lastKey);
 				stmt2.setString(2, addressAddr);
 				System.out.println(stmt2 + " : stmt2 memberAddAction.jsp");
+				
 				stmt2.executeUpdate();
 				
 				//1, 2단계가 성공하면 commit
@@ -78,11 +80,14 @@
 		} catch(Exception e) {
 			conn.rollback();
 			e.printStackTrace();
-		} finally {
-			rs.close();
-			stmt1.close();
-			stmt2.close();
-			conn.close();
+		}  finally {
+			// 6. 사용한 Statement 종료
+			if (rs != null) try { rs.close(); } catch(SQLException ex) {}
+			if (stmt1 != null) try { stmt1.close(); } catch(SQLException ex) {}
+			if (stmt2 != null) try { stmt2.close(); } catch(SQLException ex) {}
+			
+			// 7. 커넥션 종료
+			if (conn != null) try { conn.close(); } catch(SQLException ex) {}
 		}
 		
 		response.sendRedirect(request.getContextPath() + "/member/memberAddForm.jsp");
