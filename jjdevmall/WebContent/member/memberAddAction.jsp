@@ -9,19 +9,19 @@
 	<body>
 	<%
 		request.setCharacterEncoding("utf-8");
-		String member_id = request.getParameter("member_id");
-		String member_pw = request.getParameter("member_pw");
-		String member_name = request.getParameter("member_name");
-		String member_gender = request.getParameter("member_gender");
-		String member_age = request.getParameter("member_age");
-		String address_addr = request.getParameter("address_addr");
+		String memberId = request.getParameter("memberId");
+		String memberPw = request.getParameter("memberPw");
+		String memberName = request.getParameter("memberName");
+		String memberGender = request.getParameter("memberGender");
+		String memberAge = request.getParameter("memberAge");
+		String addressAddr = request.getParameter("addressAddr");
 		
-		System.out.println(member_id + " : member_id memberAddAction.jsp");
-		System.out.println(member_pw + " : member_pw memberAddAction.jsp");
-		System.out.println(member_name + " : member_name memberAddAction.jsp");
-		System.out.println(member_gender + " : member_gender memberAddAction.jsp");
-		System.out.println(member_age + " : member_age memberAddAction.jsp");
-		System.out.println(address_addr + " : address_addr memberAddAction.jsp");
+		System.out.println(memberId + " : memberId memberAddAction.jsp");
+		System.out.println(memberPw + " : memberPw memberAddAction.jsp");
+		System.out.println(memberName + " : memberName memberAddAction.jsp");
+		System.out.println(memberGender + " : memberGender memberAddAction.jsp");
+		System.out.println(memberAge + " : memberAge memberAddAction.jsp");
+		System.out.println(addressAddr + " : addressAddr memberAddAction.jsp");
 		
 		Connection conn = null;
 		PreparedStatement stmt1 = null;
@@ -40,11 +40,11 @@
 			
 			String sqlInsertMember = "INSERT INTO member(member_id, member_pw, member_name, member_gender, member_age) VALUES(?,?,?,?,?)";
 			stmt1 = conn.prepareStatement(sqlInsertMember, Statement.RETURN_GENERATED_KEYS);
-			stmt1.setString(1, member_id);
-			stmt1.setString(2, member_pw);
-			stmt1.setString(3, member_name);
-			stmt1.setString(4, member_gender);
-			stmt1.setString(5, member_age);
+			stmt1.setString(1, memberId);
+			stmt1.setString(2, memberPw);
+			stmt1.setString(3, memberName);
+			stmt1.setString(4, memberGender);
+			stmt1.setString(5, memberAge);
 			System.out.println(stmt1 + " : stmt1 memberAddAction.jsp");
 			stmt1.executeUpdate();
 			
@@ -60,13 +60,13 @@
 				System.out.println(lastKey + " : lastKey");
 			}
 			
-			if(address_addr != null) {
+			if(addressAddr != null) {
 				//member테이블에 방금 INSERT한 데이터의 PRIMARY KEY 값인 member_no컬럼의 데이터를 가져와서
 				//address테이블의 member_no컬럼의 데이터로 넣는다.
 				String sqlInsertAddr = "INSERT INTO address(member_no, address_addr) VALUES(?,?)";
 				stmt2 = conn.prepareStatement(sqlInsertAddr);
 				stmt2.setInt(1, lastKey);
-				stmt2.setString(2, address_addr);
+				stmt2.setString(2, addressAddr);
 				System.out.println(stmt2 + " : stmt2 memberAddAction.jsp");
 				stmt2.executeUpdate();
 				

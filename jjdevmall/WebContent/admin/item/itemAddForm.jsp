@@ -7,37 +7,37 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#item_name').blur(function() {	//상품이름
-					if($('#item_name').val() == '') {
+				$('#itemName').blur(function() {	//상품이름
+					if($('#itemName').val() == '') {
 						$('#itemNameHelper').text('이름 입력');
-						$('#item_name').focus();
+						$('#itemName').focus();
 					}
 				});
 				
-				$('#item_price').blur(function() {	//상품이름
-					if($('#item_price').val() == '' || isNaN($('#item_price').val())) {
+				$('#itemPrice').blur(function() {	//상품이름
+					if($('#itemPrice').val() == '' || isNaN($('#itemPrice').val())) {
 						$('#itemPriceHelper').text('가격 입력');
-						$('#item_price').focus();
+						$('#itemPrice').focus();
 					}
 				});
 				
-				$('#item_rate').blur(function() {	//상품이름
-					if($('#item_rate').val() == '' || $('#item_rate').val()>=1) {
+				$('#itemRate').blur(function() {	//상품이름
+					if($('#itemRate').val() == '' || $('#itemRate').val()>=1) {
 						$('#itemRateHelper').text('할인율 입력');
-						$('#item_rate').focus();
+						$('#itemRate').focus();
 					}
 				});
 				
 				$('#addBtn').click(function() {
-					if($('#item_name').val() == '') {
+					if($('#itemName').val() == '') {
 						$('#itemNameHelper').text('이름 입력');
-						$('#item_name').focus();
-					} else if($('#item_price').val() == '' || isNaN($('#item_price').val())) {
+						$('#itemName').focus();
+					} else if($('#itemPrice').val() == '' || isNaN($('#itemPrice').val())) {
 						$('#itemPriceHelper').text('가격 입력');
-						$('#item_price').focus();
-					} else if($('#item_rate').val() == '' || $('#item_rate').val()>=1) {
+						$('#itemPrice').focus();
+					} else if($('#itemRate').val() == '' || $('#itemRate').val()>=1) {
 						$('#itemRateHelper').text('할인율 입력');
-						$('#item_rate').focus();
+						$('#itemRate').focus();
 					} else {
 						$('#addForm').submit();
 					}
@@ -51,21 +51,21 @@
 				<tr>
 					<td>상품이름</td>
 					<td>
-						<input type="text" name="item_name" id="item_name"/>
+						<input type="text" name="itemName" id="itemName"/>
 						<span id="itemNameHelper"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>가격</td>
 					<td>
-						<input type="text" name="item_price" id="item_price"/>
+						<input type="text" name="itemPrice" id="itemPrice"/>
 						<span id="itemPriceHelper"></span>
 					</td>
 				</tr>
 				<tr>
 					<td>할인율</td>
 					<td>
-						<input type="text" name="item_rate" id="item_rate"/>
+						<input type="text" name="itemRate" id="itemRate"/>
 						<span id="itemRateHelper"></span>
 					</td>
 				</tr>

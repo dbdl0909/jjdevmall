@@ -9,13 +9,13 @@
 	<body>
 	<%
 		request.setCharacterEncoding("utf-8");
-		String item_name = request.getParameter("item_name");
-		int item_price = Integer.parseInt(request.getParameter("item_price"));
-		Double item_rate = Double.parseDouble(request.getParameter("item_rate"));
+		String itemName = request.getParameter("itemName");
+		int itemPrice = Integer.parseInt(request.getParameter("item_price"));
+		Double itemRate = Double.parseDouble(request.getParameter("itemRate"));
 		
-		System.out.println(item_name + " : item_name itemAddAction.jsp");
-		System.out.println(item_price + " : item_price itemAddAction.jsp");
-		System.out.println(item_rate + " : item_rate itemAddAction.jsp");
+		System.out.println(itemName + " : item_name itemAddAction.jsp");
+		System.out.println(itemPrice + " : itemPrice itemAddAction.jsp");
+		System.out.println(itemRate + " : itemRate itemAddAction.jsp");
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -31,9 +31,9 @@
 	
 		String sqlInsertItem = "INSERT INTO item(item_name, item_price, item_rate) VALUES(?,?,?)";
 		stmt = conn.prepareStatement(sqlInsertItem);
-		stmt.setString(1, item_name);
-		stmt.setInt(2, item_price);
-		stmt.setDouble(3, item_rate);
+		stmt.setString(1, itemName);
+		stmt.setInt(2, itemPrice);
+		stmt.setDouble(3, itemRate);
 		System.out.println(stmt + " : stmt itemAddAction.jsp");
 		stmt.executeUpdate();
 		
