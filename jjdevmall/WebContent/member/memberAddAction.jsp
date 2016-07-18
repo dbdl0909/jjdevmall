@@ -78,8 +78,12 @@
 		} catch(Exception e) {
 			conn.rollback();
 			e.printStackTrace();
+		} finally {
+			rs.close();
+			stmt1.close();
+			stmt2.close();
+			conn.close();
 		}
-		
 		
 		response.sendRedirect(request.getContextPath() + "/member/memberAddForm.jsp");
 	%>
