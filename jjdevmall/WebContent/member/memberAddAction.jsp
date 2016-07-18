@@ -48,7 +48,7 @@
 			System.out.println(stmt1 + " : stmt1 memberAddAction.jsp");
 			stmt1.executeUpdate();
 			
-			//2. member 테이블에 INSERT했을때 PRIMARY KEY 가져오기
+			//member 테이블에 INSERT했을때 PRIMARY KEY 가져오기
 			rs = stmt1.getGeneratedKeys();
 			System.out.println(rs + " : rs memberAddAction.jsp");
 			
@@ -69,6 +69,9 @@
 				stmt2.setString(2, address_addr);
 				System.out.println(stmt2 + " : stmt2 memberAddAction.jsp");
 				stmt2.executeUpdate();
+				
+				//1, 2단계가 성공하면 commit
+				conn.commit();
 			}
 			
 		
@@ -76,7 +79,7 @@
 			conn.rollback();
 			e.printStackTrace();
 		}
-		conn.commit();
+		
 		
 		response.sendRedirect(request.getContextPath() + "/member/memberAddForm.jsp");
 	%>
