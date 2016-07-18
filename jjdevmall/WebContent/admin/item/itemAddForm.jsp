@@ -46,7 +46,7 @@
 		</script>
 	</head>
 	<body>
-		<form id="addForm" action="./itemAddAction.jsp" method="post">
+		<form id="addForm" action="<%=request.getContextPath()%>/admin/item/itemAddAction.jsp" method="post">
 			<table>
 				<tr>
 					<td>상품이름</td>

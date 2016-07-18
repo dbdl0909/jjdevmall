@@ -78,7 +78,7 @@
 		</script>
 	</head>
 	<body>
-		<form id="addForm" action="memberAddAction.jsp" method="post">
+		<form id="addForm" action="<%=request.getContextPath()%>/member/memberAddAction.jsp" method="post">
 			<table>
 				<tr>
 					<td>아이디</td>
