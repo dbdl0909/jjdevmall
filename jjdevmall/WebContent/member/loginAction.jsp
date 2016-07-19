@@ -38,7 +38,9 @@
 		if(resultSet.next()) {
 			System.out.println("로그인 성공");
 			// 세션에 아이디값 저장
+			System.out.println(resultSet.getInt("member_no") + " : member_no loginAction.jsp");
 			System.out.println(resultSet.getString("member_id") + " : member_id loginAction.jsp");
+			session.setAttribute("sessionMemberNo", resultSet.getInt("member_no"));
 			session.setAttribute("sessionMemberId", resultSet.getString("member_id"));
 		} else {
 			System.out.println("로그인 실패");

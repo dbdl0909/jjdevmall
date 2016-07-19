@@ -18,58 +18,71 @@
 	%>
 		<h1>item 리스트</h1>
 		
-		<table border=1>
-			<tr>
-				<td>no</td><td>상품이름</td><td>가격</td><td>할인율</td>
-			</tr>
-	<%
-		request.setCharacterEncoding("UTF-8");
+		<div>
+			<a href="<%=request.getContextPath()%>/admin/item/itemAddForm.jsp">상품 추가</a>
+		</div>
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		<div>
 		
-		try {
-			String jdbcDriver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
-			String dbUser = "root";
-			String dbPass = "java0000";
-			Class.forName(jdbcDriver);
-			conn = DriverManager.getConnection(url, dbUser, dbPass);
-			System.out.println(conn + " : conn itemListAll.jsp.jsp");
-			
-			String sql = "SELECT item_no, item_name, item_price, item_rate FROM item";
-			pstmt = conn.prepareStatement(sql);
-			System.out.println(pstmt + " : pstmt itemListAll.jsp.jsp");
-			
-			rs = pstmt.executeQuery();
-			System.out.println(rs + " : rs itemListAll.jsp.jsp");
-			
-			while(rs.next()) {
-	%>
+			<table border=1>
 				<tr>
-					<td><%=rs.getString("item_no")%></td>
-					<td><%=rs.getString("item_name")%></td>
-					<td><%=rs.getString("item_price")%></td>
-					<td><%=rs.getString("item_rate")%></td>
+					<td>no</td><td>상품이름</td><td>가격</td><td>할인율</td><td>수정</td><td>삭제</td>
 				</tr>
-	<%	
-			}
+	<%
+			request.setCharacterEncoding("UTF-8");
 			
-		} catch(SQLException ex) {
-			out.println(ex.getMessage());
-			ex.printStackTrace();
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
 			
-		} finally {
-			//사용한 Statement 종료
-			if (rs != null) try { rs.close(); } catch(SQLException ex) {}
-			if (pstmt != null) try { pstmt.close(); } catch(SQLException ex) {}
-			
-			//커넥션 종료
-			if (conn != null) try { conn.close(); } catch(SQLException ex) {}
-		}
-	}
+			try {
+				String jdbcDriver = "com.mysql.jdbc.Driver";
+				String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
+				String dbUser = "root";
+				String dbPass = "java0000";
+				Class.forName(jdbcDriver);
+				connection = DriverManager.getConnection(url, dbUser, dbPass);
+				System.out.println(connection + " : conn itemListAll.jsp.jsp");
+				
+				String sql = "SELECT item_no, item_name, item_price, item_rate FROM item";
+				statement = connection.prepareStatement(sql);
+				System.out.println(statement + " : pstmt itemListAll.jsp.jsp");
+				
+				resultSet = statement.executeQuery();
+				System.out.println(resultSet + " : resultSet itemListAll.jsp.jsp");
+				
+				while(resultSet.next()) {
 	%>
-		</table>
+					<tr>
+						<td><%=resultSet.getInt("item_no")%></td>
+						<td><%=resultSet.getString("item_name")%></td>
+						<td><%=resultSet.getString("item_price")%></td>
+						<td><%=resultSet.getString("item_rate")%></td>
+						<td>
+							<a href="<%=request.getContextPath()%>/admin/item/itemUpdateForm.jsp?send_no=<%=resultSet.getString("item_no")%>">수정</a>
+						</td>
+						<td>
+							<a href="<%=request.getContextPath()%>/admin/item/itemDeleteAction.jsp?send_no=<%=resultSet.getString("item_no")%>">삭제</a>
+						</td>
+					</tr>
+	<%	
+				}
+				
+			} catch(SQLException ex) {
+				out.println(ex.getMessage());
+				ex.printStackTrace();
+				
+			} finally {
+				//사용한 Statement 종료
+				if (resultSet != null) try { resultSet.close(); } catch(SQLException ex) {}
+				if (statement != null) try { statement.close(); } catch(SQLException ex) {}
+				
+				//커넥션 종료
+				if (connection != null) try { connection.close(); } catch(SQLException ex) {}
+			}
+		}
+	%>
+			</table>
+		</div>
 	</body>
 </html>

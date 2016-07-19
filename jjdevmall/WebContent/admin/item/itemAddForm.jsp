@@ -22,7 +22,7 @@
 				});
 				
 				$('#itemRate').blur(function() {	//상품이름
-					if($('#itemRate').val() == '' || $('#itemRate').val()>=1) {
+					if($('#itemRate').val() == '' || $('#itemRate').val()>=1 || isNaN($('#itemRate').val())) {
 						$('#itemRateHelper').text('할인율 입력');
 						$('#itemRate').focus();
 					}
@@ -35,7 +35,7 @@
 					} else if($('#itemPrice').val() == '' || isNaN($('#itemPrice').val())) {
 						$('#itemPriceHelper').text('가격 입력');
 						$('#itemPrice').focus();
-					} else if($('#itemRate').val() == '' || $('#itemRate').val()>=1) {
+					} else if($('#itemRate').val() == '' || $('#itemRate').val()>=1 || isNaN($('#itemRate').val())) {
 						$('#itemRateHelper').text('할인율 입력');
 						$('#itemRate').focus();
 					} else {

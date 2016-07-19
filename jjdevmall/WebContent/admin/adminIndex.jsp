@@ -40,7 +40,7 @@
 	
 	if(sessionAdminId == null) { // 로그인이 안된 상태
 	%>
-		<h1>로그인</h1>
+		<h1>admin 로그인</h1>
 		<form id="loginForm" action="<%=request.getContextPath()%>/admin/member/adminLoginAction.jsp" method="post">
 			<table>
 				<tr>
