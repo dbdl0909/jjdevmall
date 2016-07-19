@@ -9,18 +9,18 @@
 	<body>
 	<%
 	String sessionAdminId = (String)session.getAttribute("sessionAdminId");
-	System.out.println(sessionAdminId + " : sessionAdminId memberListAll.jsp");
+	System.out.println(sessionAdminId + " : sessionAdminId itemListAll.jsp");
 	
 	if(sessionAdminId == null) { // 로그인이 안된 상태
 		response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp");
 		
-	} else {
+	} else {					// 로그인이 된 상태
 	%>
-		<h1>member 리스트</h1>
+		<h1>item 리스트</h1>
 		
 		<table border=1>
 			<tr>
-				<td>no</td><td>아이디</td><td>패스워드</td><td>이름</td><td>성별</td><td>나이</td>
+				<td>no</td><td>상품이름</td><td>가격</td><td>할인율</td>
 			</tr>
 	<%
 		request.setCharacterEncoding("UTF-8");
@@ -36,33 +36,26 @@
 			String dbPass = "java0000";
 			Class.forName(jdbcDriver);
 			conn = DriverManager.getConnection(url, dbUser, dbPass);
-			System.out.println(conn + " : conn memberListAll.jsp");
+			System.out.println(conn + " : conn itemListAll.jsp.jsp");
 			
-			String sql = "SELECT member_no, member_id, member_pw, member_name, member_gender, member_age FROM member";
+			String sql = "SELECT item_no, item_name, item_price, item_rate FROM item";
 			pstmt = conn.prepareStatement(sql);
-			System.out.println(pstmt + " : pstmt memberListAll.jsp");
+			System.out.println(pstmt + " : pstmt itemListAll.jsp.jsp");
 			
 			rs = pstmt.executeQuery();
-			System.out.println(rs + " : rs memberListAll.jsp");
+			System.out.println(rs + " : rs itemListAll.jsp.jsp");
 			
 			while(rs.next()) {
 	%>
-			<tr>
-				<td><%=rs.getString("member_no")%></td>
-				<td>
-					<!-- 아이디값을 누를 때 member_no에 담겨있는 값을 가지고 send_no로 이름을 지정하여 memberAddressList.jsp로 보낸다. -->		
-					<a href="<%=request.getContextPath()%>/admin/member/memberAddressList.jsp?send_no=<%= rs.getString("member_no")%>">
-						<%=rs.getString("member_id")%>
-					</a>
-				</td>
-				<td><%=rs.getString("member_pw")%></td>
-				<td><%=rs.getString("member_name")%></td>
-				<td><%=rs.getString("member_gender")%></td>
-				<td><%=rs.getString("member_age")%></td>
-			</tr>
+				<tr>
+					<td><%=rs.getString("item_no")%></td>
+					<td><%=rs.getString("item_name")%></td>
+					<td><%=rs.getString("item_price")%></td>
+					<td><%=rs.getString("item_rate")%></td>
+				</tr>
 	<%	
 			}
-		
+			
 		} catch(SQLException ex) {
 			out.println(ex.getMessage());
 			ex.printStackTrace();

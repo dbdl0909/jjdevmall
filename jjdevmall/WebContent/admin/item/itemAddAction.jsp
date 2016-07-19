@@ -22,22 +22,22 @@
 		ResultSet rs = null;
 
 		try {
-		String jdbcDriver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
-		String dbUser = "root";
-		String dbPass = "java0000";
-		Class.forName(jdbcDriver);
-		conn = DriverManager.getConnection(url, dbUser, dbPass);
-		System.out.println(conn + " : conn itemAddAction.jsp");
-	
-		String sqlInsertItem = "INSERT INTO item(item_name, item_price, item_rate) VALUES(?,?,?)";
-		stmt = conn.prepareStatement(sqlInsertItem);
-		stmt.setString(1, itemName);
-		stmt.setInt(2, itemPrice);
-		stmt.setDouble(3, itemRate);
-		System.out.println(stmt + " : stmt itemAddAction.jsp");
-		stmt.executeUpdate();
+			String jdbcDriver = "com.mysql.jdbc.Driver";
+			String url = "jdbc:mysql://localhost:3306/jjdevmall?useUnicode=true&characterEncoding=UTF-8";
+			String dbUser = "root";
+			String dbPass = "java0000";
+			Class.forName(jdbcDriver);
+			conn = DriverManager.getConnection(url, dbUser, dbPass);
+			System.out.println(conn + " : conn itemAddAction.jsp");
 		
+			String sqlInsertItem = "INSERT INTO item(item_name, item_price, item_rate) VALUES(?,?,?)";
+			stmt = conn.prepareStatement(sqlInsertItem);
+			stmt.setString(1, itemName);
+			stmt.setInt(2, itemPrice);
+			stmt.setDouble(3, itemRate);
+			System.out.println(stmt + " : stmt itemAddAction.jsp");
+			stmt.executeUpdate();
+			
 		} finally {
 			// 6. 사용한 Statement 종료
 			if (rs != null) try { rs.close(); } catch(SQLException ex) {}
