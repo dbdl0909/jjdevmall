@@ -34,7 +34,7 @@
 	<body>
 	<h1>INDEX 로그인</h1>
 	<%
-		//session영역에 저장되어있는 sesessionAdminId를 가져온다.
+		//session영역에 저장되어있는 sessionMemberId에 담겨있는 값을 가져온다.
 		String sessionMemberId = (String)session.getAttribute("sessionMemberId");
 		System.out.println(sessionMemberId + " : sessionMemberId index.jsp");
 	
