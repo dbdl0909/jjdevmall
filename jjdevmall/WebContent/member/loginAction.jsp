@@ -9,12 +9,12 @@
 <body>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String adminId =  request.getParameter("adminId");
-	String adminPw =  request.getParameter("adminPw");
+	String memberId =  request.getParameter("memberId");
+	String memberPw =  request.getParameter("memberPw");
 	
-	System.out.println(adminId + " : adminId adminLoginAction.jsp");
-	System.out.println(adminPw + " : adminPw adminLoginAction.jsp");
-	
+	System.out.println(memberId + " : memberId loginAction.jsp");
+	System.out.println(memberPw + " : memberPw loginAction.jsp");
+
 	Connection connection = null;
 	PreparedStatement statement = null;
 	ResultSet resultSet = null;
@@ -26,24 +26,23 @@
 		String dbPass = "java0000";
 		Class.forName(jdbcDriver);
 		connection = DriverManager.getConnection(url, dbUser, dbPass);
-		System.out.println(connection + " : connection adminLoginAction.jsp");
+		System.out.println(connection + " : connection loginAction.jsp");
 		
-		String sql = "SELECT * FROM admin WHERE admin_id=? AND admin_pw=?";
+		String sql = "SELECT * FROM member WHERE member_id=? AND member_pw=?";
 		statement = connection.prepareStatement(sql);
-		statement.setString(1, adminId);
-		statement.setString(2, adminPw);
-		System.out.println(statement + " : statement adminLoginAction.jsp");
+		statement.setString(1, memberId);
+		statement.setString(2, memberPw);
+		System.out.println(statement + " : statement loginAction.jsp");
 		resultSet = statement.executeQuery();
 		
 		if(resultSet.next()) {
-			System.out.println("관리자 로그인 성공");
+			System.out.println("로그인 성공");
 			// 세션에 아이디값 저장
-			System.out.println(resultSet.getString("admin_id") + " : admin_id adminLoginAction.jsp");
-			session.setAttribute("sessionAdminId", resultSet.getString("admin_id"));
+			System.out.println(resultSet.getString("member_id") + " : member_id loginAction.jsp");
+			session.setAttribute("sessionMemberId", resultSet.getString("member_id"));
 		} else {
-			System.out.println("관리자 로그인 실패");
+			System.out.println("로그인 실패");
 		}
-		
 	} catch (Exception e) {
 		
 	} finally {
@@ -53,9 +52,8 @@
 		//커넥션 종료
 		if (connection != null) try { connection.close(); } catch(SQLException ex) {}
 	}
-	
-	// 로그인 성공,실패에 상관없이 adminIndex.jsp로 이동
-	response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp");
+	// 로그인 성공,실패에 상관없이 index.jsp로 이동
+	response.sendRedirect(request.getContextPath() + "/index.jsp");
 %>
 </body>
 </html>

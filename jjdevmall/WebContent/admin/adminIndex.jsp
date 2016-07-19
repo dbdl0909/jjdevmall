@@ -34,7 +34,7 @@
 	</head>
 	<body>
 	<%
-	//session영역에 저장되어있는 se
+	//session영역에 저장되어있는 sesessionAdminId를 가져온다.
 	String sessionAdminId = (String)session.getAttribute("sessionAdminId");
 	System.out.println(sessionAdminId + " : sessionAdminId adminIndex.jsp");
 	
