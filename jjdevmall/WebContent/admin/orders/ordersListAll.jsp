@@ -9,7 +9,7 @@
 	<body>
 	<%
 	String sessionAdminId = (String)session.getAttribute("sessionAdminId");
-	System.out.println(sessionAdminId + " : sessionAdminId itemListAll.jsp");
+	System.out.println(sessionAdminId + " : sessionAdminId ordersListAll.jsp");
 	
 	if(sessionAdminId == null) { // 로그인이 안된 상태
 		response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp");
@@ -23,14 +23,11 @@
 		</div>
 		
 		<div>
-			<a href="<%=request.getContextPath()%>/admin/item/itemAddForm.jsp">상품 추가</a>
-		</div>
-		
-		<div>
 		
 			<table border=1>
 				<tr>
-					<td>no</td><td>상품이름</td><td>가격</td><td>할인율</td><td>수정</td><td>삭제</td>
+					<td>orders_no</td><td>item_no</td><td>item_name</td><td>member_no</td><td>member_name</td>
+					<td>orders_quantity</td><td>orders_rate</td><td>orders_date</td><td>orders_state</td>
 				</tr>
 	<%
 			request.setCharacterEncoding("UTF-8");
@@ -46,28 +43,34 @@
 				String dbPass = "java0000";
 				Class.forName(jdbcDriver);
 				connection = DriverManager.getConnection(url, dbUser, dbPass);
-				System.out.println(connection + " : conn itemListAll.jsp.jsp");
+				System.out.println(connection + " : conn ordersListAll.jsp");
 				
-				String sql = "SELECT item_no, item_name, item_price, item_rate FROM item";
+				String sql = "";
+				sql += "SELECT o.orders_no orders_no, o.item_no item_no, i.item_name item_name,";
+				sql += " m.member_no member_no, m.member_id member_id, o.orders_quantity orders_quantity, o.orders_rate orders_rate,";
+				sql += " o.orders_date orders_date, o.orders_state orders_state";
+				sql += " FROM orders o INNER JOIN item i";
+				sql += " ON o.item_no = i.item_no";
+				sql += " INNER JOIN member m ON o.member_no = m.member_no";
+				
 				statement = connection.prepareStatement(sql);
-				System.out.println(statement + " : pstmt itemListAll.jsp.jsp");
+				System.out.println(statement + " : pstmt ordersListAll.jsp");
 				
 				resultSet = statement.executeQuery();
-				System.out.println(resultSet + " : resultSet itemListAll.jsp.jsp");
+				System.out.println(resultSet + " : resultSet ordersListAll.jsp");
 				
 				while(resultSet.next()) {
 	%>
 					<tr>
-						<td><%=resultSet.getInt("item_no")%></td>
+						<td><%=resultSet.getInt("orders_no")%></td>
+						<td><%=resultSet.getString("item_no")%></td>
 						<td><%=resultSet.getString("item_name")%></td>
-						<td><%=resultSet.getString("item_price")%></td>
-						<td><%=resultSet.getString("item_rate")%></td>
-						<td>
-							<a href="<%=request.getContextPath()%>/admin/item/itemUpdateForm.jsp?send_no=<%=resultSet.getString("item_no")%>">수정</a>
-						</td>
-						<td>
-							<a href="<%=request.getContextPath()%>/admin/item/itemDeleteAction.jsp?send_no=<%=resultSet.getString("item_no")%>">삭제</a>
-						</td>
+						<td><%=resultSet.getString("member_no")%></td>
+						<td><%=resultSet.getString("member_id")%></td>
+						<td><%=resultSet.getString("orders_quantity")%></td>
+						<td><%=resultSet.getString("orders_rate")%></td>
+						<td><%=resultSet.getString("orders_date")%></td>
+						<td><%=resultSet.getString("orders_state")%></td>
 					</tr>
 	<%	
 				}

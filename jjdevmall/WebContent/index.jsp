@@ -66,6 +66,10 @@
 					</tr>
 				</table>
 			</form>
+			
+			<div>
+				<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자로 로그인하기</a>
+			</div>
 	<%		
 		} else { // 로그인이 된 상태
 	%>

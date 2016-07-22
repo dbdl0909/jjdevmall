@@ -5,6 +5,30 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Insert title here</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {				
+				$('#updateBtn').click(function() {
+					if($('#memberPw').val() == '') {
+						$('#memberPwHelper').text('패스워드를 적어주세요');
+						$('#memberPw').focus();
+					} else if($('#memberName').val() == '') {
+						$('#memberNameHelper').text('이름을 적어주세요');
+						$('#memberName').focus();
+					} else if($('.memberGender').val().length == 0) {
+						$('#memberGenderHelper').text('성별을 선택해주세요');
+					} else if($('#addressAddr').val() == '') {
+						$('#addressAddrHelper').text('주소를 적어주세요');
+					} else if($('#memberAge').val() == '' || $('#memberAge').val()<=0 || isNaN($('#memberAge').val())) {
+						$('#memberAgeHelper').text('할인율을 적어주세요, 숫자만 가능');
+						$('#memberAge').focus();
+					} else {
+						$('#updateForm').submit();
+					}
+				});
+			});
+		</script>
+		
 	</head>
 	<body>
 	<%
@@ -14,15 +38,22 @@
 	System.out.println(sessionMemberNo + " : sessionMemberNo memberUpdateForm.jsp");
 	System.out.println(sessionMemberId + " : sessionMemberId memberUpdateForm.jsp");
 	
+	int resultSetRow = 0;
+	int j = 0;
+	
+	String memberId = null;
+	String memberPw = null;
+	String memberName = null;
+	String memberGender = null;
+	int memberAge = 0;
+	String[] address = null;
+	
 	if(sessionMemberId == null) { // 로그인이 안된 상태
 		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		
 	} else {
 	%>
 		<h1><%=sessionMemberId %>님 회원정보 수정</h1>
-		
-		<form id="updateForm" action="memberUpdateForm.jsp" method="post">
-			<table border=1>
 		
 	<%
 		request.setCharacterEncoding("UTF-8");
@@ -55,33 +86,15 @@
 	
 			//resultSet의 Row 구하기
 			resultSet.last();
-			int resultSetRow = resultSet.getRow();
+			resultSetRow = resultSet.getRow();
 			System.out.println(resultSetRow + " : resultSetRow memberUpdateForm.jsp");
 			//resultSet의 커서를 last()로 이동시켰으니, 꼭 다시 first로 이동시켜줘야 한다.
 			resultSet.beforeFirst();
-			
-			//주소가 여러개일때
-			int j = 0;
-	%>
-				<tr>
-					<td>아이디</td>
-					<td>패스워드</td>
-					<td>이름</td>
-					<td>성별</td>
-					<td>나이</td>
-	<%
-					for(j=0; j<resultSetRow; j++) {
-	%>
-						<td>주소 <%=j+1%></td>
-	<%
-					}
-	%>
-				</tr>
-	<%
+
 			//주소가 여러개일때 배열에 저장한다.
 			int count = 0;
 			int i = 0;
-			String[] address = new String[resultSetRow];
+			address = new String[resultSetRow];
 			while(resultSet.next()) {
 				System.out.println(count + " : count memberUpdateForm.jsp");
 				address[count] = resultSet.getString("address_addr");
@@ -89,26 +102,19 @@
 				count++;
 				
 				if(resultSet.isLast()) {
-	%>
-				<tr>
-					<td><%=resultSet.getString("member_id")%></td>
-					<td><%=resultSet.getString("member_pw")%></td>
-					<td><%=resultSet.getString("member_name")%></td>
-					<td><%=resultSet.getString("member_gender")%></td>
-					<td><%=resultSet.getString("member_age")%></td>
-	<%
-					//배열에 담겨있는 값들을 출력한다.
-					for(i=0; i<resultSetRow; i++) {
-	%>
-						<td><%=address[i]%></td>
-	<%
-					}
-	%>						
-				</tr>
-	<%
+					memberId = resultSet.getString("member_id");
+					memberPw = resultSet.getString("member_pw");
+					memberName = resultSet.getString("member_name");
+					memberGender = resultSet.getString("member_gender");
+					memberAge = resultSet.getInt("member_age");
+					
+					System.out.println(memberId + " : memberId memberUpdateForm.jsp");
+					System.out.println(memberPw + " : memberPw memberUpdateForm.jsp");
+					System.out.println(memberName + " : memberName memberUpdateForm.jsp");
+					System.out.println(memberGender + " : memberGender memberUpdateForm.jsp");
+					System.out.println(memberAge + " : memberAge memberUpdateForm.jsp");
 				}
 			}
-			
 			
 		} catch(SQLException ex) {
 			out.println(ex.getMessage());
@@ -124,6 +130,79 @@
 		}
 	}
 	%>
+		<form id="addForm" action="<%=request.getContextPath()%>/member/memberAddAction.jsp" method="post">
+			<table>
+				<tr>
+					<td>아이디</td>
+					<td>
+						<input type="text" name="memberId" value="<%=memberId%>" readonly="readonly"/>
+						<span id="memberIdHelper"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>패스워드</td>
+					<td>
+						<input type="password" name="memberPw" id="memberPw" value="<%=memberPw%>"/>
+						<span id="memberPwHelper"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>이름</td>
+					<td>
+						<input type="text" name="memberName" id="memberName" value="<%=memberName%>"/>
+						<span id="memberNameHelper"></span>
+					</td>
+				</tr>
+	<%
+				if(memberGender.equals("male")) {
+	%>						
+				<tr>
+					<td>성별</td>
+					<td>
+						<input type="radio" name="memberGender" class="memberGender" value="male" checked="checked"/>남
+						<input type="radio" name="memberGender" class="memberGender" value="female"/>여
+						<span id="memberGenderHelper"></span>
+					</td>
+				</tr>
+	<%
+				} else {
+	%>
+				<tr>
+					<td>성별</td>
+					<td>
+						<input type="radio" name="memberGender" class="memberGender" value="male"/>남
+						<input type="radio" name="memberGender" class="memberGender" value="female" checked="checked"/>여
+						<span id="memberGenderHelper"></span>
+					</td>
+				</tr>	
+	<%
+				}
+	%>
+				<tr>
+					<td>나이</td>
+					<td>
+						<input type="text" name="memberAge" id="memberAge" value="<%=memberAge%>"/>
+						<span id="memberAgeHelper"></span>
+					</td>
+				</tr>
+	<%
+				for(j=0; j<resultSetRow; j++) {
+	%>
+				<tr>
+					<td>주소 <%=j+1%></td>
+					<td>
+						<input type="text" name="addressAddr" id="addressAddr" value="<%=address[j]%>"/>
+						<span id="addressAddrHelper"></span>
+					</td>
+				</tr>
+	<%
+				}
+	%>
+				<tr>
+					<td colspan=2>
+						<input type="button" id="updateBtn" value="수정하기"/>
+					</td>
+				</tr>
 			</table>
 		</form>
 	</body>

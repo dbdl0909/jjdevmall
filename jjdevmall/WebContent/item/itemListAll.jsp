@@ -9,6 +9,10 @@
 	<body>
 		<h1>item 리스트</h1>
 		
+		<div>
+			<a href="<%=request.getContextPath()%>/index.jsp">home으로 돌아가기</a>
+		</div>
+		
 		<table border=1>
 			<tr>
 				<td>no</td><td>상품이름</td><td>가격</td><td>할인율</td><td>주문</td>

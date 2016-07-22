@@ -64,13 +64,18 @@
 				</tr>
 			</table>
 		</form>
+		
+		<div>
+				<a href="<%=request.getContextPath()%>/index.jsp">일반회원으로 로그인하기</a>
+		</div>
+		
 	<%		
 	} else { // 로그인이 된 상태
 	%>
 		<ol>
 			<li><a href="<%=request.getContextPath()%>/admin/member/adminLogout.jsp">로그아웃</a></li>
 			<li><a href="<%=request.getContextPath()%>/admin/item/itemListAll.jsp">상품관리</a></li>
-			<li><a href="">주문관리</a></li>
+			<li><a href="<%=request.getContextPath()%>/admin/orders/ordersListAll.jsp">주문관리</a></li>
 			<li><a href="<%=request.getContextPath()%>/admin/member/memberListAll.jsp">회원관리</a></li>
 		</ol>
 	<%		
